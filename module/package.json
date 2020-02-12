@@ -1,0 +1,14 @@
+{
+  "name": "imagizer",
+  "version": "1.0.0",
+  "description": "An Image processing library that uses openCV ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oragbakosi Valentine",
+  "license": "ISC",
+  "dependencies": {
+    "python-shell": "^1.0.8"
+  }
+}
