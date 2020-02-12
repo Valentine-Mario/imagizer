@@ -41,5 +41,43 @@ class ImgProcessing{
             }
         } 
     }
+
+    rotateImage(origin, filename, destination, angle){
+        if(origin==undefined|| filename==undefined|| destination==undefined|| angle==undefined){
+            console.log('please pass in all parameters')
+        }else{
+            var validImgCheck= checkFile.checkFileType(origin)
+            if(validImgCheck.value==true){
+                let pyshell = new PythonShell('module/py-files/rotate-img.py');
+     
+            pyshell.send(''+origin+','+''+filename+','+destination+','+ validImgCheck.fleExt+','+angle);     
+            pyshell.on('message', function (message) {
+            console.log('processing image...')
+            console.log(message);
+            });
+            }else{
+                console.log('please pass in a valid image')
+            }
+        } 
+    }
+
+    BlurrImage(origin, filename, destination){
+        if(origin==undefined|| filename==undefined|| destination==undefined){
+            console.log('please pass in all parameters')
+        }else{
+            var validImgCheck= checkFile.checkFileType(origin)
+            if(validImgCheck.value==true){
+                let pyshell = new PythonShell('module/py-files/blurr-img.py');
+     
+            pyshell.send(''+origin+','+''+filename+','+destination+','+ validImgCheck.fleExt);     
+            pyshell.on('message', function (message) {
+            console.log('processing image...')
+            console.log(message);
+            });
+            }else{
+                console.log('please pass in a valid image')
+            }
+        } 
+    }
 }
 module.exports=new ImgProcessing()
