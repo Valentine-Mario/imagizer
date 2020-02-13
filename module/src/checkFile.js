@@ -1,12 +1,16 @@
 var path = require('path')
-
+var fs=require('fs')
 class CheckFile{
     checkFileType(file){
-        var fileExt= path.extname(file)
+        if(fs.existsSync(file)){
+            var fileExt= path.extname(file)
         if(fileExt=='.png'||'.jpeg'||'.jpg'|| '.psd'|| '.raw'|| '.svg'){
             return {value:true, fleExt:fileExt};
         }else{
             return {value:false};
+        }
+        }else{
+            return {value:false}
         }
     }
 }
