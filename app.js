@@ -35,7 +35,10 @@ class Imagizer{
                         rej('please pass in all parameters')
                     }else{
                         var validImgCheck= checkFile.checkFileType(origin)
-                        if(validImgCheck.value==true){
+                        if(typeof(width)!=='number'){
+                            rej('width must be a number')
+                        }else{
+                            if(validImgCheck.value==true){
                                 let pyshell = new PythonShell(TEMPLATE_DIR+'/resize.py');
                                 pyshell.send(''+origin+','+''+filename+','+destination+','+width +','+ validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
@@ -49,6 +52,8 @@ class Imagizer{
                         }else{
                             rej('please pass in a valid image')
                         }
+                        }
+                        
                     } 
             }
         })
@@ -118,7 +123,10 @@ class Imagizer{
                 rej('please pass in all parameters')
             }else{
                 var validImgCheck= checkFile.checkFileType(origin)
-                if(validImgCheck.value==true){
+                if(typeof(angle)!=='number'){
+                    rej('angle must be a number')
+                }else{
+                    if(validImgCheck.value==true){
                         let pyshell = new PythonShell(TEMPLATE_DIR+'/rotate-img.py');
                         pyshell.send(''+origin+','+''+filename+','+destination+','+ validImgCheck.fleExt+','+angle);     
                         pyshell.on('message', function (message) {
@@ -132,6 +140,8 @@ class Imagizer{
                 }else{
                     rej('please pass in a valid image')
                 }
+                }
+                
             } 
         }
     })

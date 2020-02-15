@@ -25,7 +25,7 @@ npm i imagizer
 Before using the package, be sure to import it:
 
 ```
-const imagizer=require('Imagizer')
+const imagizer=require('imagizer')
 
 ```
 ### Resizing an image
