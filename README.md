@@ -16,7 +16,7 @@ Imagizer is an node js image processing library that harnesses the power of open
 ## Installation
 
 ```
-npm i imagizer
+npm i imagizer-javascript
 
 ```
 
@@ -25,7 +25,7 @@ npm i imagizer
 Before using the package, be sure to import it:
 
 ```
-const imagizer=require('imagizer')
+const imagizer=require('imagizer-javascript')
 
 ```
 ### Resizing an image
