@@ -4,11 +4,16 @@
   "description": "An Image processing library that uses openCV ",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "find ./test -name '*.spec.js' | xargs mocha -R spec"
   },
   "author": "Oragbakosi Valentine",
   "license": "ISC",
   "dependencies": {
     "python-shell": "^1.0.8"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^7.0.1"
   }
 }
