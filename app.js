@@ -7,8 +7,18 @@ let options = {
   };
 var process=require('process');
 var cwd=process.cwd(); 
-class ImgProcessing{
+
+
+/** 
+ * Image processing class that sends image path as string to the python file 
+ * for processing using opencv and imutils
+ */
+class Imagizer{
     
+    /** Module to resize image;
+     * Checks if the python dependencies are present before 
+     * the image is sent to be resized
+     */
     resizeImg(origin, filename, destination, width){
         return new Promise((res, rej)=>{
 
@@ -48,6 +58,10 @@ class ImgProcessing{
        
     }
 
+    /** Module for converting images to black and white using opencv
+     * greyscale feature
+     */
+
 
     BnW(origin, filename, destination){
         return new Promise((res, rej)=>{
@@ -85,6 +99,10 @@ class ImgProcessing{
         
     }
 
+    /** Rotate image to an angel specified when calling the module
+     * using imutils
+    */
+
     rotateImage(origin, filename, destination, angle){
         return new Promise((res, rej)=>{
             PythonShell.runString('import cv2; import imutils', null, (err)=>{
@@ -120,6 +138,8 @@ class ImgProcessing{
         })
     }
 
+    /**  Module to blurr out image  */
+
     BlurrImage(origin, filename, destination){
         return new Promise((res, rej)=>{
              PythonShell.runString('import cv2; import imutils', null, (err)=>{
@@ -154,6 +174,10 @@ class ImgProcessing{
     })
         })
     }
+
+    /** Feature to Cartoonize image 
+     * 
+     */
 
     Cartoonize(origin, filename, destination){
         return new Promise((res, rej)=>{
@@ -191,4 +215,4 @@ class ImgProcessing{
         
     }
 }
-module.exports=new ImgProcessing()
+module.exports=new Imagizer()
