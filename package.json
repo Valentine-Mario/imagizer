@@ -1,5 +1,5 @@
 {
-  "name": "imagizer",
+  "name": "imagizer-javascript",
   "version": "1.0.0",
   "description": "An Image processing library that uses openCV ",
   "main": "app.js",
