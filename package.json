@@ -1,10 +1,21 @@
 {
   "name": "imagizer-javascript",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An Image processing library that uses openCV ",
   "main": "app.js",
   "scripts": {
     "test": "find ./test -name '*.spec.js' | xargs mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Valentine-Mario/imagizer"
+  },
+  "keywords": [
+    "image processing",
+    "open cv"
+  ],
+  "bugs": {
+    "url": "https://github.com/Valentine-Mario/imagizer/issues"
   },
   "author": "Oragbakosi Valentine",
   "license": "ISC",
