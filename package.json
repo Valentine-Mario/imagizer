@@ -4,7 +4,8 @@
   "description": "An Image processing library that uses openCV ",
   "main": "app.js",
   "scripts": {
-    "test": "find ./test -name '*.spec.js' | xargs mocha -R spec"
+    "test": "find ./test -name '*.spec.js' | xargs mocha -R spec",
+    "postinstall": "python ./py-files/install-package.py"
   },
   "repository": {
     "type": "git",

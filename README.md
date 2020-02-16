@@ -2,8 +2,7 @@
 
 Imagizer is an node js image processing library that harnesses the power of open CV to process images in JavaScript. It is built on Python Open CV and imutils so you don't have to use a powerful computer plus it's super fast.
 
-* Before usage be sure to have python and pip installed 
-* Don't worry about installing open CV and imutils if you don't have them. Imagizer would install any missing pip dependencies when first used if they are missing.
+* Before usage be sure to have python and pip installed before using imagizer
 * only jpg, jpeg, png, raw, psd and svg images are supported
 
 ## Features

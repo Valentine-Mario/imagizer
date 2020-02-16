@@ -2,9 +2,7 @@ var checkFile=require('./src/checkFile')
 const {PythonShell} = require('python-shell')
 var path = require('path')  
 const TEMPLATE_DIR = path.join(__dirname,  'py-files') 
-let options = {
-    scriptPath: TEMPLATE_DIR,
-  };
+
 var process=require('process');
 var cwd=process.cwd(); 
 
@@ -24,44 +22,32 @@ class Imagizer{
 
         PythonShell.runString('import cv2; import imutils', null, (err)=>{
             if(err){
-                console.log("downloading extra python dependecies required...")
-                //script to require dependencies
-                PythonShell.run('install-package.py', options, (err, result)=>{
-                    if(err)rej(err)
-                    res(result)
-                })            
+                rej("be sure to have open cv and imutils installed on your system")
             }else{
-                    if(origin==undefined|| filename==undefined|| destination==undefined|| width==undefined){
-                        rej('please pass in all parameters')
-                    }else{
+                if(width==undefined)  { throw new Error('provide width'); }
+                if(typeof(width)!=='number') {throw new Error('width should be a type of number')}
+                if(origin==undefined) { throw new Error(' Provide path for image')}
+                if(filename==undefined || filename=='') {throw new Error('Provide a valid file name')}
+                if(destination == undefined) {throw new Error('provide file destination')}
+
                         var validImgCheck= checkFile.checkFileType(origin)
-                        if(typeof(width)!=='number'){
-                            rej('width must be a number')
-                        }else{
                             if(validImgCheck.value==true){
                                 let pyshell = new PythonShell(TEMPLATE_DIR+'/resize.py');
-                                pyshell.send(''+origin+','+''+filename+','+destination+','+width +','+ validImgCheck.fleExt);     
+                                pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+width +'\''+ validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
                                  if(message=='True'){
                                      res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
                                  }else{
-                                     rej("error processing image")
+                                    throw new Error("error processing image")
                                  }
-                                
                             })
                         }else{
-                            rej('please pass in a valid image')
-                        }
-                        }
-                        
-                    } 
+                            throw new Error('please pass in a valid image')
+                        }   
+                    }
+                })
+            })
             }
-        })
-    })
- 
-        
-       
-    }
 
     /** Module for converting images to black and white using opencv
      * greyscale feature
@@ -72,36 +58,33 @@ class Imagizer{
         return new Promise((res, rej)=>{
             PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    console.log("downloading extra python dependecies required...")
-                    //script to require dependencies
-                    PythonShell.run('install-package.py', options, (err, result)=>{
-                        if(err)rej(err)
-                        res(result)
-                    })            
+                    rej("be sure to have open cv and imutils installed on your system")              
                 }else{
-            if(origin==undefined|| filename==undefined|| destination==undefined){
-                rej('please pass in all parameters')
-            }else{
+           
+                if(origin==undefined) { throw new Error(' Provide path for image')}
+                if(filename==undefined || filename=='') {throw new Error('Provide a valid file name')}
+                if(destination == undefined) {throw new Error('provide file destination')}
+
                 var validImgCheck= checkFile.checkFileType(origin)
                 if(validImgCheck.value==true){
                         let pyshell = new PythonShell(TEMPLATE_DIR+'/black-and-white.py');
-                        pyshell.send(''+origin+','+''+filename+','+destination+','+ validImgCheck.fleExt);     
+                        pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                         pyshell.on('message', function (message) {
                         if(message=='True'){
                             res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
                         }else{
-                            rej("error processing image")
+                            throw new Error("error processing image")
                         }
                     })
                 }else{
-                    rej('please pass in a valid image')
+                    throw new Error('please pass in a valid image')
                 }
-            } 
-        }
-    })
+            
+                }
+            })
 
         })
-        
+                
     }
 
     /** Rotate image to an angel specified when calling the module
@@ -112,41 +95,34 @@ class Imagizer{
         return new Promise((res, rej)=>{
             PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    console.log("downloading extra python dependecies required...")
-                    //script to require dependencies
-                    PythonShell.run('install-package.py', options, (err, result)=>{
-                        if(err)rej(err)
-                        res(result)
-                    })            
+                    rej("be sure to have open cv and imutils installed on your system")                                            
                 }else{
-            if(origin==undefined|| filename==undefined|| destination==undefined|| angle==undefined){
-                rej('please pass in all parameters')
-            }else{
-                var validImgCheck= checkFile.checkFileType(origin)
-                if(typeof(angle)!=='number'){
-                    rej('angle must be a number')
-                }else{
-                    if(validImgCheck.value==true){
-                        let pyshell = new PythonShell(TEMPLATE_DIR+'/rotate-img.py');
-                        pyshell.send(''+origin+','+''+filename+','+destination+','+ validImgCheck.fleExt+','+angle);     
-                        pyshell.on('message', function (message) {
-                            if(message=='True'){
-                                res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
-                            }else{
-                                rej("error processing image")
-                            }
-                });
-                
-                }else{
-                    rej('please pass in a valid image')
+                    if(angle==undefined)  { throw new Error('provide angle'); }
+                    if(typeof(angle)!=='number') {throw new Error('angle should be a type of number')}
+                    if(origin==undefined) { throw new Error(' Provide path for image')}
+                    if(filename==undefined || filename=='') {throw new Error('Provide file name')}
+                    if(destination == undefined) {throw new Error('provide file destination')}
+
+                        var validImgCheck= checkFile.checkFileType(origin)
+                       
+                            if(validImgCheck.value==true){
+                                let pyshell = new PythonShell(TEMPLATE_DIR+'/rotate-img.py');
+                                pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt+'\''+angle);     
+                                pyshell.on('message', function (message) {
+                                    if(message=='True'){
+                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                    }else{
+                                        throw new Error("error processing image")
+                                    }
+                        });
+                        
+                        }else{
+                            throw new Error('please pass in a valid image')
+                        }   
                 }
-                }
-                
-            } 
-        }
-    })
-        })
-    }
+            })
+                })
+            }
 
     /**  Module to blurr out image  */
 
@@ -154,32 +130,29 @@ class Imagizer{
         return new Promise((res, rej)=>{
              PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    console.log("downloading extra python dependecies required...")
-                    //script to require dependencies
-                    PythonShell.run('install-package.py', options, (err, result)=>{
-                        if(err)rej(err)
-                        res(result)
-                    })            
+                    rej("be sure to have open cv and imutils installed on your system")                         
                 }else{
-            if(origin==undefined|| filename==undefined|| destination==undefined){
-                rej('please pass in all parameters')
-            }else{
+
+                    if(origin==undefined) { throw new Error(' Provide path for image')}
+                    if(filename==undefined || filename=='') {throw new Error('Provide file name')}
+                    if(destination == undefined) {throw new Error('provide file destination')}
+
                 var validImgCheck= checkFile.checkFileType(origin)
                 if(validImgCheck.value==true){
                         let pyshell = new PythonShell(TEMPLATE_DIR+'/blurr-img.py');
-                        pyshell.send(''+origin+','+''+filename+','+destination+','+ validImgCheck.fleExt);     
+                        pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                         pyshell.on('message', function (message) {
                             if(message=='True'){
                                 res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
                             }else{
-                                rej("error processing image")
+                                throw new Error("error processing image")
                             }
                     })
                 
                 }else{
-                    rej('please pass in a valid image')
+                    throw new Error('please pass in a valid image')
                 }
-            } 
+             
         }
     })
         })
@@ -193,36 +166,32 @@ class Imagizer{
         return new Promise((res, rej)=>{
             PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    console.log("downloading extra python dependecies required...")
-                    //script to require dependencies
-                    PythonShell.run('install-package.py', options, (err, result)=>{
-                        if(err)rej(err)
-                        res(result)
-                    })            
+                    rej("be sure to have open cv and imutils installed on your system")                                     
                 }else{
-            if(origin==undefined|| filename==undefined|| destination==undefined){
-                rej('all parameters are required')
-            }else{
-                var validImgCheck= checkFile.checkFileType(origin)
-                if(validImgCheck.value==true){
-                        let pyshell = new PythonShell(TEMPLATE_DIR+'/cartoon.py');
-                        pyshell.send(''+origin+','+''+filename+','+destination+','+ validImgCheck.fleExt);     
-                        pyshell.on('message', function (message) {
-                            if(message=='True'){
-                                res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
-                            }else{
-                                rej("error processing image")
-                            }
-                         });
+           
+                    if(origin==undefined) { throw new Error(' Provide path for image')}
+                    if(filename==undefined || filename=='') {throw new Error('Provide file name')}
+                    if(destination == undefined) {throw new Error('provide file destination')}
+
+                        var validImgCheck= checkFile.checkFileType(origin)
+                        if(validImgCheck.value==true){
+                                let pyshell = new PythonShell(TEMPLATE_DIR+'/cartoon.py');
+                                pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
+                                pyshell.on('message', function (message) {
+                                    if(message=='True'){
+                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                    }else{
+                                        throw new Error("error processing image")
+                                    }
+                                });
+                        
+                        }else{
+                        throw new Error('please pass in a valid image')
+                        }
+                      }
+                    })
+                })
                 
-                }else{
-                   rej('please pass in a valid image')
-                }
             }
         }
-    })
-        })
-        
-    }
-}
 module.exports=new Imagizer()

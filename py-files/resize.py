@@ -1,6 +1,6 @@
 import imutils, cv2, sys
 lines = sys.stdin.readline().replace('\n','')
-line_list=lines.split(',')
+line_list=lines.split('\'')
 import os
 cwd = os.getcwd()
 
