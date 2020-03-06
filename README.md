@@ -11,6 +11,7 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] Convert Image to black and white
 - [x] Blure out image
 - [x] Cartoonise image
+- [x] Text on image
 
 ## Installation
 
@@ -79,7 +80,7 @@ imagizer.BlurrImage(image_path, new_file_name, folder_destination).then(image_pa
 ```
 #### sample image and blured image
 ![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
-![black and white](https://res.cloudinary.com/rchain/image/upload/v1582043702/blured.jpg)
+![blurred image](https://res.cloudinary.com/rchain/image/upload/v1582043702/blured.jpg)
 Note: All parameters are required
 
 ### Cartonize Image
@@ -93,8 +94,37 @@ imagizer.Cartoonize(image_path, new_file_name, folder_destination).then(image_pa
 
 #### sample image and cartoon image
 ![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
-![black and white](https://res.cloudinary.com/rchain/image/upload/v1582043805/cartoon.jpg)
+![cartoon image](https://res.cloudinary.com/rchain/image/upload/v1582043805/cartoon.jpg)
 Note: All parameters are required
+
+### Text on image
+
+```
+imagizer.TextOver(image_path, new_file_name, folder_destination, text, rgb_for_text, text_size, X_coordinate, y_coordinate, text_font).then(image_path=>{
+    console.log(image_path)
+})
+
+```
+
+#### available font include:
+* "FONT_HERSHEY_SIMPLEX"
+* "FONT_HERSHEY_PLAIN"
+* "FONT_HERSHEY_DUPLEX"
+* "FONT_HERSHEY_COMPLEX"
+* "FONT_HERSHEY_TRIPLEX"
+* "FONT_HERSHEY_COMPLEX_SMALL"
+* "FONT_HERSHEY_SCRIPT_SIMPLEX"
+* "FONT_HERSHEY_SCRIPT_COMPLEX"
+* "FONT_ITALIC"
+
+### sample image and text image
+![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
+![text image](https://res.cloudinary.com/rchain/image/upload/v1583495476/text.jpg)
+Note:
+* All parameters are required
+* rgb should be sent as a string eg '(0, 0, 0)'
+* text_size goes from 0.1 to greater (but for average text size, 0.5- 1 would be okay)
+* To use the default rgb, let rgb be undefined
 
 ## Author 
 [Valentine Oragbakosi](https://github.com/Valentine-Mario)

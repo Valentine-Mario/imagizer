@@ -13,6 +13,6 @@ try:
     cartoon = cv2.bitwise_and(color, color, mask=edges)
     cv2.imwrite(cwd+'/'+line_list[2]+'/'+line_list[1]+line_list[3], cartoon)
     print(True)
-except expression as identifier:
+except:
     print(False)
 

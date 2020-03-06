@@ -193,5 +193,45 @@ class Imagizer{
                 })
                 
             }
+
+            TextOver(origin, filename, destination, text, rgb, text_size, x_coord, y_coord, font){
+                return new Promise((res, rej)=>{
+                    PythonShell.runString('import cv2; import imutils', null, (err)=>{
+                        if(err){
+                            rej("be sure to have open cv and imutils installed on your system")                                     
+                        }else{
+                            if(origin==undefined) { throw new Error(' Provide path for image')}
+                            if(filename==undefined || filename=='') {throw new Error('Provide file name')}
+                            if(destination == undefined) {throw new Error('provide file destination')}
+                            if(text==undefined){throw new Error("provide text")}  
+                            if(rgb==undefined){rgb='(0,0,0)'} 
+                            if(typeof(rgb)!== 'string'){throw new Error('rgb value must be in a string')}   
+                            if(text_size==undefined || text_size==0){throw new Error("text size can't be undefined or 0")}
+                            if(typeof(text_size)!=='number'){throw new Error('text size must be a number')}
+                            if(x_coord==undefined){throw new Error('x coordinate cannot be undefined')}
+                            if(typeof(x_coord)!=='number'){throw new Error('x coordinate must be a number')}
+                            if(y_coord==undefined){throw new Error('y coordinate cannot be undefined')}
+                            if(typeof(y_coord)!=='number'){throw new Error('x coordinate must be a number')}
+                            if(font==undefined){font="FONT_HERSHEY_SIMPLEX"}
+                            var validImgCheck= checkFile.checkFileType(origin)
+                        if(validImgCheck.value==true){
+                                let pyshell = new PythonShell(TEMPLATE_DIR+'/text-over-img.py');
+                                pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt+'\''+
+                                text+'\''+rgb+'\''+text_size+'\''+x_coord+'\''+y_coord+'\''+font);     
+                                pyshell.on('message', function (message) {
+                                    if(message=='True'){
+                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                    }else{
+                                        throw new Error("error processing image")
+                                    }
+                                });
+                        
+                        }else{
+                        throw new Error('please pass in a valid image')
+                        }
+                        }
+                    })
+                })
+            }
         }
 module.exports=new Imagizer()

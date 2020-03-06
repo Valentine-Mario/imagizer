@@ -3,7 +3,7 @@ var should = chai.should();
 var expect = chai.expect;
 var ImgProcessing=require('../app')
 var process=require('process')
-var test_photo='jurasic.jpg'
+var test_photo='download.jpg'
 var fs=require('fs')
 var directory='test/processed'
 const path = require('path');
@@ -74,6 +74,18 @@ describe('Imagizer Test', ()=>{
             var filename='cartoon-image';
             ImgProcessing.Cartoonize(test_photo, filename, directory).then(img_path=>{
                 should.equal(img_path, process.cwd()+'/test/processed/cartoon-image.jpg');
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
+    describe('Text on image', ()=>{
+        it('should return path to cartoonized image', done=>{
+            var filename='text-image';
+            ImgProcessing.TextOver(test_photo, filename, directory, "text", '(0, 0, 0)', 0.9, 90, 90, "FONT_HERSHEY_SCRIPT_COMPLEX").then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/text-image.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)

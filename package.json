@@ -1,6 +1,6 @@
 {
   "name": "imagizer-javascript",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An Image processing library that uses openCV ",
   "main": "app.js",
   "scripts": {
