@@ -12,7 +12,7 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] Blure out image
 - [x] Cartoonise image
 - [x] Text on image
-- [x] Over image over another image
+- [x] Merge images together
 
 ## Installation
 
@@ -128,7 +128,7 @@ Note:
 * To use the default rgb, let rgb be undefined
 
 
-### Overlay image over another image
+### Merge 2 images overlay
 
 ```
 imagizer.OverLay(image_one, image_two, new_file_name, image_one_opacity, image_two_opacity, file_destination).then(img_path=>{
@@ -137,11 +137,11 @@ imagizer.OverLay(image_one, image_two, new_file_name, image_one_opacity, image_t
 
 ```
 
-#### sample images and result overlay image
+#### sample images
 ![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
 ![unprocessed image 2](https://res.cloudinary.com/rchain/image/upload/v1584451137/download2.jpg)
 
-##### resulting overlayed image
+##### resulting merged image
 ![overlay image](https://res.cloudinary.com/rchain/image/upload/v1584451148/overlay.jpg)
 Note:
 * All parameters are required
