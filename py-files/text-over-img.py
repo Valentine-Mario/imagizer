@@ -3,7 +3,7 @@ lines = sys.stdin.readline().replace('\n','')
 line_list=lines.split('\'')
 import os
 cwd = os.getcwd()
-font=''
+font=cv2.FONT_HERSHEY_SIMPLEX
 if line_list[9].strip()== "FONT_HERSHEY_SIMPLEX":
     font=cv2.FONT_HERSHEY_SIMPLEX
 if line_list[9].strip()=="FONT_HERSHEY_PLAIN":

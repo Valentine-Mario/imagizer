@@ -4,6 +4,7 @@ var expect = chai.expect;
 var ImgProcessing=require('../app')
 var process=require('process')
 var test_photo='download.jpg'
+var test_photo2='download2.jpg'
 var fs=require('fs')
 var directory='test/processed'
 const path = require('path');
@@ -86,6 +87,18 @@ describe('Imagizer Test', ()=>{
             var filename='text-image';
             ImgProcessing.TextOver(test_photo, filename, directory, "text", '(0, 0, 0)', 0.9, 90, 90, "FONT_HERSHEY_SCRIPT_COMPLEX").then(img_path=>{
                 should.equal(img_path, process.cwd()+'/test/processed/text-image.jpg');
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
+    describe("Overlay image over another", ()=>{
+        it("should overlay an image over another", done=>{
+            var filename='overlay-image';
+            ImgProcessing.OverLay(test_photo, test_photo2, filename, 0.9, 0.5, directory).then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/overlay-image.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)

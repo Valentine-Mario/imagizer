@@ -26,9 +26,9 @@ class Imagizer{
             }else{
                 if(width==undefined)  { throw new Error('provide width'); }
                 if(typeof(width)!=='number') {throw new Error('width should be a type of number')}
-                if(origin==undefined) { throw new Error(' Provide path for image')}
-                if(filename==undefined || filename=='') {throw new Error('Provide a valid file name')}
-                if(destination == undefined) {throw new Error('provide file destination')}
+                if(origin==undefined||typeof(origin)!=='string') { throw new Error(' Provide path a valid image')}
+                if(filename==undefined || filename==''|| typeof(filename)!=="string") {throw new Error('Provide a valid file name')}
+                if(destination == undefined|| typeof(destination)!=='string') {throw new Error('provide file destination')}
 
                         var validImgCheck= checkFile.checkFileType(origin)
                             if(validImgCheck.value==true){
@@ -61,9 +61,9 @@ class Imagizer{
                     rej("be sure to have open cv and imutils installed on your system")              
                 }else{
            
-                if(origin==undefined) { throw new Error(' Provide path for image')}
-                if(filename==undefined || filename=='') {throw new Error('Provide a valid file name')}
-                if(destination == undefined) {throw new Error('provide file destination')}
+                if(origin==undefined||typeof(origin)!=='string') { throw new Error(' Provide path for image')}
+                if(filename==undefined || filename==''|| typeof(filename)!=="string") {throw new Error('Provide a valid file name')}
+                if(destination == undefined || typeof(destination)!=='string') {throw new Error('provide file destination')}
 
                 var validImgCheck= checkFile.checkFileType(origin)
                 if(validImgCheck.value==true){
@@ -99,9 +99,9 @@ class Imagizer{
                 }else{
                     if(angle==undefined)  { throw new Error('provide angle'); }
                     if(typeof(angle)!=='number') {throw new Error('angle should be a type of number')}
-                    if(origin==undefined) { throw new Error(' Provide path for image')}
-                    if(filename==undefined || filename=='') {throw new Error('Provide file name')}
-                    if(destination == undefined) {throw new Error('provide file destination')}
+                    if(origin==undefined ||typeof(origin)!=='string') { throw new Error(' Provide a valid path')}
+                    if(filename==undefined || filename==''|| typeof(filename)!=="string") {throw new Error('Provide file name')}
+                    if(destination == undefined || typeof(destination)!=='string') {throw new Error('provide file destination')}
 
                         var validImgCheck= checkFile.checkFileType(origin)
                        
@@ -133,9 +133,9 @@ class Imagizer{
                     rej("be sure to have open cv and imutils installed on your system")                         
                 }else{
 
-                    if(origin==undefined) { throw new Error(' Provide path for image')}
-                    if(filename==undefined || filename=='') {throw new Error('Provide file name')}
-                    if(destination == undefined) {throw new Error('provide file destination')}
+                    if(origin==undefined ||typeof(origin)!=='string') { throw new Error(' Provide path for image')}
+                    if(filename==undefined || filename==''|| typeof(filename)!=="string") {throw new Error('Provide file name')}
+                    if(destination == undefined || typeof(destination)!=='string') {throw new Error('provide file destination')}
 
                 var validImgCheck= checkFile.checkFileType(origin)
                 if(validImgCheck.value==true){
@@ -158,6 +158,43 @@ class Imagizer{
         })
     }
 
+    /**
+     *  Feature to Over lay an image over another 
+     */
+    OverLay(origin_one, origin_two, filename, opacity_one, opacity_two, destination){
+        return new Promise((res, rej)=>{
+            PythonShell.runString('import cv2; import imutils', null, (err)=>{
+                if(err){
+                    rej("be sure to have open cv and imutils installed on your system")
+                }else{
+                    if(origin_one==undefined||typeof(origin_one)!=="string"){throw new Error("please pass a valid image path")}
+                    if(origin_two==undefined||typeof(origin_two)!=="string"){throw new Error("please pass a valid image path")}
+                    if(filename==undefined||typeof(filename)!=="string"|| filename==''){throw new Error("please pass in a valid filename")}
+                    if(opacity_one==undefined||typeof(opacity_one)!=='number'){throw new Error("please pass in a valid value for opacity")}
+                    if(opacity_two==undefined||typeof(opacity_two)!=='number'){throw new Error("please pass in a valid value for opacity")}
+                    if(destination==undefined|| typeof(destination)!=="string"){throw new Error("please pass in a valid destination")}
+                
+                    var validImgCheck= checkFile.checkFileType(origin_two)
+                    var validImgCheck2=checkFile.checkFileType(origin_two)
+
+                    if(validImgCheck.value==true && validImgCheck2.value==true){
+                        let pyshell=new PythonShell(TEMPLATE_DIR+'/overlay.py');
+                        pyshell.send(''+origin_one+'\''+origin_two+'\''+filename+'\''+opacity_one+'\''+opacity_two+'\''+destination+'\''+validImgCheck.fleExt)
+                        pyshell.on('message', (message)=>{
+                            if(message=="True"){
+                                res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                            }else{
+                                throw new Error("error processing image")
+                            }
+                        })
+                    }else{
+                        throw new Error("be sure to pass in valid file paths")
+                    }
+                }
+            })
+        })
+    }
+
     /** Feature to Cartoonize image 
      * 
      */
@@ -169,9 +206,9 @@ class Imagizer{
                     rej("be sure to have open cv and imutils installed on your system")                                     
                 }else{
            
-                    if(origin==undefined) { throw new Error(' Provide path for image')}
-                    if(filename==undefined || filename=='') {throw new Error('Provide file name')}
-                    if(destination == undefined) {throw new Error('provide file destination')}
+                    if(origin==undefined ||typeof(origin)!=="string") { throw new Error(' Provide path for image')}
+                    if(filename==undefined || filename==''||typeof(filename)!=="string") {throw new Error('Provide file name')}
+                    if(destination == undefined || typeof(destination)!=="string") {throw new Error('provide file destination')}
 
                         var validImgCheck= checkFile.checkFileType(origin)
                         if(validImgCheck.value==true){
@@ -194,15 +231,20 @@ class Imagizer{
                 
             }
 
+            /** 
+             * Feature to add text over image 
+     * 
+     */
+
             TextOver(origin, filename, destination, text, rgb, text_size, x_coord, y_coord, font){
                 return new Promise((res, rej)=>{
                     PythonShell.runString('import cv2; import imutils', null, (err)=>{
                         if(err){
                             rej("be sure to have open cv and imutils installed on your system")                                     
                         }else{
-                            if(origin==undefined) { throw new Error(' Provide path for image')}
-                            if(filename==undefined || filename=='') {throw new Error('Provide file name')}
-                            if(destination == undefined) {throw new Error('provide file destination')}
+                            if(origin==undefined ||typeof(origin)!=="string") { throw new Error(' Provide path for image')}
+                            if(filename==undefined || filename==''||typeof(filename)!=="string") {throw new Error('Provide file name')}
+                            if(destination == undefined || typeof(destination)!=="string" ) {throw new Error('provide file destination')}
                             if(text==undefined){throw new Error("provide text")}  
                             if(rgb==undefined){rgb='(0,0,0)'} 
                             if(typeof(rgb)!== 'string'){throw new Error('rgb value must be in a string')}   
