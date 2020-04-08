@@ -13,6 +13,7 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] Cartoonise image
 - [x] Text on image
 - [x] Merge images together
+- [x] Convert images to video
 
 ## Installation
 
