@@ -8,7 +8,7 @@ var test_photo2='download2.jpg'
 var fs=require('fs')
 var directory='test/processed'
 const path = require('path');
-
+const img_test='img_test'
 describe('Imagizer Test', ()=>{
     afterEach('ensuring processed folder is empty', (done)=>{
         fs.readdir(directory, (err, files) => {
@@ -99,6 +99,18 @@ describe('Imagizer Test', ()=>{
             var filename='overlay-image';
             ImgProcessing.OverLay(test_photo, test_photo2, filename, 0.9, 0.5, directory).then(img_path=>{
                 should.equal(img_path, process.cwd()+'/test/processed/overlay-image.jpg');
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
+    describe("create video from images",()=>{
+        it("should create video from images", done=>{
+            var filename="test_video";
+            ImgProcessing.CreateVieo(img_test, filename, directory).then(video_path=>{
+                should.equal(video_path, process.cwd()+'/test/processed/test_video.avi');
                 done()
             }).catch(err=>{
                 console.log(err)

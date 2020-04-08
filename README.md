@@ -147,6 +147,18 @@ Note:
 * All parameters are required
 * opacity can take the values 0.1, 0.9, 1.3, etc 
 
+### Create Video from Images
+
+* This feature takes a folder that contains images and convert them to an avi video
+
+```
+imagizer.CreateVieo(image_folder, video_name, video_destination).then(video_path=>{
+    console.log(video_path)
+})
+```
+Note:
+* All parameters are required
+* The video always has an avi file extension
 
 ## Author 
 [Valentine Oragbakosi](https://github.com/Valentine-Mario)

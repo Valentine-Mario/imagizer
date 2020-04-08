@@ -2,7 +2,7 @@ var checkFile=require('./src/checkFile')
 const {PythonShell} = require('python-shell')
 var path = require('path')  
 const TEMPLATE_DIR = path.join(__dirname,  'py-files') 
-
+const fs=require("fs")
 var process=require('process');
 var cwd=process.cwd(); 
 
@@ -275,5 +275,30 @@ class Imagizer{
                     })
                 })
             }
+          
+
+            CreateVieo(imgFolder, videoName, destination){
+                return new Promise((res, rej)=>{
+                    PythonShell.runString('import cv2; import PIL', null, (err)=>{
+                        if(err){
+                            rej("be sure to have open cv and pillow installed on your system")                                     
+                        }else{
+                            if(imgFolder==undefined){throw new Error("image folder path cannot be undefined")}
+                            if(videoName==undefined)throw new Error("video name cannot be undefined")
+                            if(destination==undefined){throw new Error("pass in a video destination")}
+                            let pyshell=new PythonShell(TEMPLATE_DIR+'/video_create.py');
+                            pyshell.send(''+imgFolder+'\''+videoName+'.avi'+'\''+destination);
+                            pyshell.on('message', function(message){
+                                
+                                if(message=='True'){
+                                    res(cwd+`/${destination}/${videoName}.avi`)
+                                }else{
+                                    throw new Error("error creating video")
+                                }
+                            })
+                        }
+                })
+            })
         }
+    }
 module.exports=new Imagizer()
