@@ -118,4 +118,15 @@ describe('Imagizer Test', ()=>{
         })
     })
 
+    describe("concatenate image vertically", ()=>{
+        it("should concatenate images vertically", done=>{
+            var filename="concat-image.jpg"
+            ImgProcessing.ConcatImage(test_photo, test_photo2, filename, directory, 'vertical').then(img_path=>{
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
 })

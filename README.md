@@ -14,6 +14,7 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] Text on image
 - [x] Merge images together
 - [x] Convert images to video
+- [x] concat 2 images vertically orhorizontally
 
 ## Installation
 
@@ -160,6 +161,32 @@ imagizer.CreateVieo(image_folder, video_name, video_destination).then(video_path
 Note:
 * All parameters are required
 * The video always has an avi file extension
+
+### Concatenate 2 images vertically or horizontally
+
+* For vertical concatenation
+
+```
+ imagizer.ConcatImage(image_one, image_two, filename.jpg, file_destination, 'vertical').then(img_path=>{
+                console.log(img_path)
+            })
+```
+* For horizontal concatenation
+
+```
+imagizer.ConcatImage(image_one, image_two, new_filename.jpg, file_destination, 'horizontal').then(img_path=>{
+                console.log(img_path)
+            })
+```
+
+### resulting image
+![vertical image](https://res.cloudinary.com/rchain/image/upload/v1588754378/stuff.jpg)
+![horizontal image 2](https://res.cloudinary.com/rchain/image/upload/v1588754387/stuff2.jpg)
+
+Note:
+* All parameters are required
+* Specify the file extenstion for the new file name
+
 
 ## Author 
 [Valentine Oragbakosi](https://github.com/Valentine-Mario)

@@ -22,7 +22,7 @@ class Imagizer{
 
         PythonShell.runString('import cv2; import imutils', null, (err)=>{
             if(err){
-                rej("be sure to have open cv and imutils installed on your system")
+                throw new Error("be sure to have open cv and imutils installed on your system")
             }else{
                 if(width==undefined)  { throw new Error('provide width'); }
                 if(typeof(width)!=='number') {throw new Error('width should be a type of number')}
@@ -58,7 +58,7 @@ class Imagizer{
         return new Promise((res, rej)=>{
             PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    rej("be sure to have open cv and imutils installed on your system")              
+                    throw new Error("be sure to have open cv and imutils installed on your system")              
                 }else{
            
                 if(origin==undefined||typeof(origin)!=='string') { throw new Error(' Provide path for image')}
@@ -95,7 +95,7 @@ class Imagizer{
         return new Promise((res, rej)=>{
             PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    rej("be sure to have open cv and imutils installed on your system")                                            
+                    throw new Error("be sure to have open cv and imutils installed on your system")                                            
                 }else{
                     if(angle==undefined)  { throw new Error('provide angle'); }
                     if(typeof(angle)!=='number') {throw new Error('angle should be a type of number')}
@@ -130,7 +130,7 @@ class Imagizer{
         return new Promise((res, rej)=>{
              PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    rej("be sure to have open cv and imutils installed on your system")                         
+                    throw new Error("be sure to have open cv and imutils installed on your system")                         
                 }else{
 
                     if(origin==undefined ||typeof(origin)!=='string') { throw new Error(' Provide path for image')}
@@ -165,7 +165,7 @@ class Imagizer{
         return new Promise((res, rej)=>{
             PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    rej("be sure to have open cv and imutils installed on your system")
+                    throw new Error("be sure to have open cv and imutils installed on your system")
                 }else{
                     if(origin_one==undefined||typeof(origin_one)!=="string"){throw new Error("please pass a valid image path")}
                     if(origin_two==undefined||typeof(origin_two)!=="string"){throw new Error("please pass a valid image path")}
@@ -203,7 +203,7 @@ class Imagizer{
         return new Promise((res, rej)=>{
             PythonShell.runString('import cv2; import imutils', null, (err)=>{
                 if(err){
-                    rej("be sure to have open cv and imutils installed on your system")                                     
+                    throw new Error("be sure to have open cv and imutils installed on your system")                                     
                 }else{
            
                     if(origin==undefined ||typeof(origin)!=="string") { throw new Error(' Provide path for image')}
@@ -240,7 +240,7 @@ class Imagizer{
                 return new Promise((res, rej)=>{
                     PythonShell.runString('import cv2; import imutils', null, (err)=>{
                         if(err){
-                            rej("be sure to have open cv and imutils installed on your system")                                     
+                            throw new Error("be sure to have open cv and imutils installed on your system")                                     
                         }else{
                             if(origin==undefined ||typeof(origin)!=="string") { throw new Error(' Provide path for image')}
                             if(filename==undefined || filename==''||typeof(filename)!=="string") {throw new Error('Provide file name')}
@@ -281,11 +281,11 @@ class Imagizer{
                 return new Promise((res, rej)=>{
                     PythonShell.runString('import cv2; import PIL', null, (err)=>{
                         if(err){
-                            rej("be sure to have open cv and pillow installed on your system")                                     
+                            throw new Error("be sure to have open cv and pillow installed on your system")                                     
                         }else{
-                            if(imgFolder==undefined){throw new Error("image folder path cannot be undefined")}
-                            if(videoName==undefined)throw new Error("video name cannot be undefined")
-                            if(destination==undefined){throw new Error("pass in a video destination")}
+                            if(imgFolder==undefined||typeof(imgFolder)!=='string'){throw new Error("image folder path cannot be undefined and must be a string")}
+                            if(videoName==undefined || typeof(videoName)!=='string')throw new Error("video name cannot be undefined and must be a string")
+                            if(destination==undefined || typeof(destination)!=='string'){throw new Error("pass in a video destination as string")}
                             let pyshell=new PythonShell(TEMPLATE_DIR+'/video_create.py');
                             pyshell.send(''+imgFolder+'\''+videoName+'.avi'+'\''+destination);
                             pyshell.on('message', function(message){
@@ -297,6 +297,40 @@ class Imagizer{
                                 }
                             })
                         }
+                })
+            })
+        }
+
+        ConcatImage(image_one, image_two, filename, destination, concatType){
+            return new Promise((res, rej)=>{
+                PythonShell.runString('import cv2', null, (err)=>{
+                    if(err){
+                        throw new Error("be sure to have open cv installed on your system")
+                    }else{
+                        if(image_one==undefined || typeof(image_one)!== 'string'){throw new Error("please pass in first image path")}
+                        if(image_two==undefined || typeof(image_two)!== 'string'){throw new Error("please pass in second image path")}
+                        if(filename==undefined || typeof(filename)!=='string'){throw new Error("please provide a file name")}
+                        if(destination==undefined||typeof(destination)!=='string')throw new Error("please provide folder destination as string")
+                        if(concatType==undefined||typeof(concatType)!=='string'){throw new Error("concatination type must be a string")}
+                        if(concatType!='vertical'&& concatType!='horizontal'){throw new Error("concat type must be specified correctly either as vertical or horizontal")}
+
+                        var validImgCheckOne= checkFile.checkFileType(image_one)
+                        var validImgCheckTwo= checkFile.checkFileType(image_two)
+                       
+                            if(validImgCheckOne.value==true && validImgCheckTwo.value==true){
+                                let pyshell=new PythonShell(TEMPLATE_DIR+'/concat_img.py');
+                            pyshell.send(''+image_one+'\''+image_two+'\''+filename+'\''+destination+'\''+concatType);
+                            pyshell.on('message', function(message){
+                                if(message=='True'){
+                                    res(cwd+`/${destination}/${filename}`)
+                                }else{
+                                    throw new Error("error creating image")
+                                }
+                            })
+                            }else{
+                                throw new Error("please pass a valid image")
+                            }
+                    }
                 })
             })
         }
