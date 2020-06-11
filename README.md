@@ -14,7 +14,8 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] Text on image
 - [x] Merge images together
 - [x] Convert images to video
-- [x] concat 2 images vertically orhorizontally
+- [x] Concat 2 images vertically orhorizontally
+- [x] Convert an image to pencil sketch
 
 ## Installation
 
@@ -108,6 +109,19 @@ imagizer.TextOver(image_path, new_file_name, folder_destination, text, rgb_for_t
 })
 
 ```
+
+### Pencil Sketch image
+
+```
+imagizer.PencilSketchImg(image_path, new_file_name, folder_destination).then(image_path=>{
+    console.log(image_path)
+}).catch(err=>{ console.log(err) })
+
+```
+#### sample image and black-white image
+![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
+![sketch image](https://res.cloudinary.com/rchain/image/upload/v1591868931/hey.jpg)
+Note: All parameters are required
 
 #### available font include:
 * "FONT_HERSHEY_SIMPLEX"

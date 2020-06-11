@@ -334,5 +334,37 @@ class Imagizer{
                 })
             })
         }
+
+        PencilSketchImg(origin, filename, destination){
+            return new Promise((res, rej)=>{
+                PythonShell.runString('import cv2; import imutils', null, (err)=>{
+                    if(err){
+                        throw new Error("be sure to have open cv and imutils installed on your system")              
+                    }else{
+               
+                    if(origin==undefined||typeof(origin)!=='string') { throw new Error(' Provide path for image')}
+                    if(filename==undefined || filename==''|| typeof(filename)!=="string") {throw new Error('Provide a valid file name')}
+                    if(destination == undefined || typeof(destination)!=='string') {throw new Error('provide file destination')}
+    
+                    var validImgCheck= checkFile.checkFileType(origin)
+                    if(validImgCheck.value==true){
+                            let pyshell = new PythonShell(TEMPLATE_DIR+'/sketch.py');
+                            pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
+                            pyshell.on('message', function (message) {
+                            if(message=='True'){
+                                res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                            }else{
+                                throw new Error("error processing image")
+                            }
+                        })
+                    }else{
+                        throw new Error('please pass in a valid image')
+                    }
+                
+                    }
+                })
+    
+            })
+        }
     }
 module.exports=new Imagizer()

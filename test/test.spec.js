@@ -8,7 +8,7 @@ var test_photo2='download2.jpg'
 var fs=require('fs')
 var directory='test/processed'
 const path = require('path');
-const img_test='img_test'
+const img_test='/img_test'
 describe('Imagizer Test', ()=>{
     afterEach('ensuring processed folder is empty', (done)=>{
         fs.readdir(directory, (err, files) => {
@@ -63,6 +63,18 @@ describe('Imagizer Test', ()=>{
             var filename='blurred-image';
             ImgProcessing.BlurrImage(test_photo, filename, directory).then(img_path=>{
                 should.equal(img_path, process.cwd()+'/test/processed/blurred-image.jpg');
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
+    describe("pencil sketch image", ()=>{
+        it('should pencil sketch image', done=>{
+            var filename='sketch-image';
+            ImgProcessing.BlurrImage(test_photo, filename, directory).then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/sketch-image.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)
