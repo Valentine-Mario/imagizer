@@ -141,4 +141,25 @@ describe('Imagizer Test', ()=>{
         })
     })
 
+    describe("generate blank image", ()=>{
+        it("should generate blank image", done=>{
+            var filename="blank";
+            ImgProcessing.generateBlankImg(filename, directory, 300, 500, "(10, 20, 200)").then(img_path=>{
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
+    describe("generate blank image with text", ()=>{
+        it("should generate blaqnk image with text", done=>{
+            var filename="blank_text";
+            ImgProcessing.generateBlankImgWithText(filename, directory, 300, 500, "(200, 0, 1)", "(120, 12, 23)", 34, 12, "hello world", 23, "FONT_HERSHEY_DUPLEX").then(img_path=>{
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
 })

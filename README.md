@@ -16,6 +16,8 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] Convert images to video
 - [x] Concat 2 images vertically orhorizontally
 - [x] Convert an image to pencil sketch
+- [x] generate blank image
+- [x] generate blank image with text
 
 ## Installation
 
@@ -109,19 +111,14 @@ imagizer.TextOver(image_path, new_file_name, folder_destination, text, rgb_for_t
 })
 
 ```
-
-### Pencil Sketch image
-
-```
-imagizer.PencilSketchImg(image_path, new_file_name, folder_destination).then(image_path=>{
-    console.log(image_path)
-}).catch(err=>{ console.log(err) })
-
-```
-#### sample image and black-white image
+### sample image and text image
 ![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
-![sketch image](https://res.cloudinary.com/rchain/image/upload/v1591868931/hey.jpg)
-Note: All parameters are required
+![text image](https://res.cloudinary.com/rchain/image/upload/v1583495476/text.jpg)
+Note:
+* All parameters are required
+* rgb should be sent as a string eg '(0, 0, 0)'
+* text_size goes from 0.1 to greater (but for average text size, 0.5- 1 would be okay)
+* To use the default rgb, let rgb be undefined
 
 #### available font include:
 * "FONT_HERSHEY_SIMPLEX"
@@ -134,14 +131,21 @@ Note: All parameters are required
 * "FONT_HERSHEY_SCRIPT_COMPLEX"
 * "FONT_ITALIC"
 
-### sample image and text image
+
+### Pencil Sketch image
+
+```
+imagizer.PencilSketchImg(image_path, new_file_name, folder_destination).then(image_path=>{
+    console.log(image_path)
+}).catch(err=>{ console.log(err) })
+
+```
+#### sample image and pencil-sketch image
 ![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
-![text image](https://res.cloudinary.com/rchain/image/upload/v1583495476/text.jpg)
-Note:
-* All parameters are required
-* rgb should be sent as a string eg '(0, 0, 0)'
-* text_size goes from 0.1 to greater (but for average text size, 0.5- 1 would be okay)
-* To use the default rgb, let rgb be undefined
+![sketch image](https://res.cloudinary.com/rchain/image/upload/v1591868931/hey.jpg)
+Note: All parameters are required
+
+
 
 
 ### Merge 2 images overlay
@@ -181,7 +185,7 @@ Note:
 * For vertical concatenation
 
 ```
- imagizer.ConcatImage(image_one, image_two, filename.jpg, file_destination, 'vertical').then(img_path=>{
+ imagizer.ConcatImage(image_one, image_two, new_filename.jpg, file_destination, 'vertical').then(img_path=>{
                 console.log(img_path)
             })
 ```
@@ -201,6 +205,54 @@ Note:
 * All parameters are required
 * Specify the file extenstion for the new file name
 
+
+### Generate blank image
+* This feature helps you create a blank image
+
+```
+imagizer.generateBlankImg(new_filename, file_destination, img_height, img_width, background_rgb).then(image_path=>{
+    console.log(image_path)
+})
+
+```
+* All parameters are required
+* set backgroung_rgb to undefined to use default rgb value
+* rgb should be sent as a string eg '(0, 0, 0)'
+* set rgb to "random" to use randomly generated rgb
+* all generated image are have a ".jpg" file extension
+
+
+### sample image
+![sample image](https://res.cloudinary.com/rchain/image/upload/v1593812310/gen.jpg)
+
+### Generate blank image with text
+* This feature hekps you generate blank images with text over it
+
+```
+imagizer.generateBlankImgWithText(new_filename, file_destination, img_height, img_width, image_rgb, text_rgb, text_y_coordinate, text_x_coordinate, text, text_size, font).then(image_path=>{
+    console.log(img_path)
+})
+```
+
+* All parameters are required
+* set rgb to undefined to use default rgb value
+* rgb should be sent as a string eg '(0, 0, 0)'
+* set rgb to "random" to use randomly generated rgb
+* all generated image are have a ".jpg" file extension
+
+#### available font include:
+* "FONT_HERSHEY_SIMPLEX"
+* "FONT_HERSHEY_PLAIN"
+* "FONT_HERSHEY_DUPLEX"
+* "FONT_HERSHEY_COMPLEX"
+* "FONT_HERSHEY_TRIPLEX"
+* "FONT_HERSHEY_COMPLEX_SMALL"
+* "FONT_HERSHEY_SCRIPT_SIMPLEX"
+* "FONT_HERSHEY_SCRIPT_COMPLEX"
+* "FONT_ITALIC"
+
+### sample image
+![sample image](https://res.cloudinary.com/rchain/image/upload/v1593812310/joe.jpg)
 
 ## Author 
 [Valentine Oragbakosi](https://github.com/Valentine-Mario)

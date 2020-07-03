@@ -366,5 +366,74 @@ class Imagizer{
     
             })
         }
+
+        generateBlankImg(filename, destination, img_height, img_width, rgb){
+            return new Promise((res, rej)=>{
+                PythonShell.runString('import cv2; import numpy', null, (err)=>{
+                    if(err){
+                        throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                    }else{
+                            if(filename==undefined || filename==''||typeof(filename)!=="string") {throw new Error('Provide file name')}
+                            if(destination == undefined || typeof(destination)!=="string" ) {throw new Error('provide file destination')}
+                            if(rgb==undefined){rgb='(0,0,0)'} 
+                            if(typeof(rgb)!== 'string'){throw new Error('rgb value must be in a string')} 
+                            if(img_height==undefined||typeof(img_height)!=="number"){throw new Error("provide valid image height")}  
+                            if(img_width==undefined||typeof(img_width)!=="number"){throw new Error("provide valid image width")}  
+
+                                    let pyshell = new PythonShell(TEMPLATE_DIR+'/generate_image.py');
+                                    pyshell.send(''+filename+'\''+destination+'\''+img_height+'\''+img_width+'\''+
+                                    rgb+'\''+".jpg");     
+                                    pyshell.on('message', function (message) {
+                                    if(message=='True'){
+                                        res(cwd+`/${destination}/${filename}.jpg`)
+                                    }else{
+                                        throw new Error("error processing image")
+                                    }
+                                })
+                           
+                    }
+                })
+            })
+        }
+
+
+        generateBlankImgWithText(filename, destination, img_height, img_width, rgb_image, rgb_text, 
+            y_coord, x_coord, text, text_size, font){
+                return new Promise((res, rej)=>{
+                PythonShell.runString('import cv2; import numpy', null, (err)=>{
+                        if(err){
+                            throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                        }else{
+                                if(filename==undefined || filename==''||typeof(filename)!=="string") {throw new Error('Provide file name')}
+                                if(destination == undefined || typeof(destination)!=="string" ) {throw new Error('provide file destination')}
+                                if(rgb_image==undefined){rgb='(0,0,0)'} 
+                                if(typeof(rgb_image)!== 'string'){throw new Error('rgb value must be in a string')} 
+                                if(img_height==undefined||typeof(img_height)!=="number"){throw new Error("provide valid image height")}  
+                                if(img_width==undefined||typeof(img_width)!=="number"){throw new Error("provide valid image width")} 
+                                if(rgb_text==undefined){rgb='(10,30,100)'} 
+                                if(typeof(rgb_text)!== 'string'){throw new Error('rgb value must be in a string')} 
+                                if(text_size==undefined || text_size==0){throw new Error("text size can't be undefined or 0")}
+                                if(typeof(text_size)!=='number'){throw new Error('text size must be a number')}
+                                if(x_coord==undefined){throw new Error('x coordinate cannot be undefined')}
+                                if(typeof(x_coord)!=='number'){throw new Error('x coordinate must be a number')}
+                                if(y_coord==undefined){throw new Error('y coordinate cannot be undefined')}
+                                if(typeof(y_coord)!=='number'){throw new Error('x coordinate must be a number')}
+                                if(font==undefined){font="FONT_HERSHEY_SIMPLEX"}
+                                if(text==undefined){throw new Error("provide text")}  
+                                
+                                let pyshell = new PythonShell(TEMPLATE_DIR+'/generate_image_with_text.py');
+                                pyshell.send(''+filename+'\''+destination+'\''+img_height+'\''+img_width+'\''+
+                                rgb_image+'\''+ rgb_text+"\'"+y_coord+"\'"+x_coord+"\'"+text+"\'"+text_size+"\'"+font+"\'"+".jpg");     
+                                pyshell.on('message', function (message) {
+                                if(message=='True'){
+                                    res(cwd+`/${destination}/${filename}.jpg`)
+                                }else{
+                                    throw new Error("error processing image")
+                                }
+                            })
+                        }
+                    })
+                })
+            }
     }
 module.exports=new Imagizer()
