@@ -458,7 +458,7 @@ class Imagizer{
                         }else{
                             if(origin==undefined||typeof(origin)!=="string"){throw new Error("provide a valid file path")}
                             if(filename==undefined||typeof(filename)!=="string"||typeof(filename)==""){throw new Error("provide a valid filename")}
-                            if(destination==undefined||typeof(destination)!=="string"){throw new Error("provide valid destibation")}
+                            if(destination==undefined||typeof(destination)!=="string"){throw new Error("provide valid destination")}
                             if(point1==undefined||typeof(point1)!=="string"){throw new Error("provide point one as a string")}
                             if(point2==undefined||typeof(point2)!=='string'){throw new Error("provide point 2 if shape type is circle, it should be an int")}
                             if(rgb==undefined||typeof(rgb)!=="string"){throw new Error("provide rgb as string eg (0, 0, 0)")}
@@ -493,7 +493,7 @@ class Imagizer{
                     }else{
                         if(origin==undefined||typeof(origin)!=="string"){throw new Error("provide a valid file path")}
                         if(filename==undefined||typeof(filename)!=="string"||typeof(filename)==""){throw new Error("provide a valid filename")}
-                        if(destination==undefined||typeof(destination)!=="string"){throw new Error("provide valid destibation")}
+                        if(destination==undefined||typeof(destination)!=="string"){throw new Error("provide valid destination")}
                         if(point==undefined||typeof(point)!=="string"){throw new Error("provide point one as a string")}
                         if(rgb==undefined||typeof(rgb)!=="string"){throw new Error("provide rgb as string eg (0, 0, 0)")}
                         if(thickness==undefined||typeof(thickness)!=="number"||thickness<=0){throw new Error("provide thickness as int")}
@@ -505,6 +505,35 @@ class Imagizer{
                                 origin=path.resolve(origin)
                                 pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+point+'\''+rgb+'\''+
                                 marker_type+'\''+marker_size+'\''+thickness+'\''+ validImgCheck.fleExt);     
+                                pyshell.on('message', function (message) {
+                                    if(message=='True'){
+                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                    }else{
+                                        throw new Error("error processing image")
+                                    }
+                        });
+                                }else{
+                                    throw new Error('please pass in a valid image')
+                                }
+                    }
+                })
+            })
+        }
+
+        invertImgColor(origin, filename, destination){
+            return new Promise((res, rej)=>{
+                PythonShell.runString("import cv2;", null, (err)=>{
+                    if(err){
+                        throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                    }else{
+                        if(origin==undefined||typeof(origin)!=="string"){throw new Error("provide a valid file path")}
+                        if(filename==undefined||typeof(filename)!=="string"||typeof(filename)==""){throw new Error("provide a valid filename")}
+                        if(destination==undefined||typeof(destination)!=="string"){throw new Error("provide valid destination")}
+                        var validImgCheck= checkFile.checkFileType(origin)
+                                if(validImgCheck.value==true){
+                                let pyshell=new PythonShell(TEMPLATE_DIR+'/invert_img.py');
+                                origin=path.resolve(origin)
+                                pyshell.send(''+origin+'\''+filename+'\''+destination+'\''+validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
                                         res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)

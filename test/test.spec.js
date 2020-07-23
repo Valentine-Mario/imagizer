@@ -184,4 +184,15 @@ describe('Imagizer Test', ()=>{
             })
         })
     })
+
+    describe("invert image color", ()=>{
+        it("should invert image colour", done=>{
+            var filename="inverted";
+            ImgProcessing.invertImgColor(test_photo, filename, directory).then(img_path=>{
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
 })

@@ -254,5 +254,53 @@ imagizer.generateBlankImgWithText(new_filename, file_destination, img_height, im
 ### sample image
 ![sample image](https://res.cloudinary.com/rchain/image/upload/v1593812310/joe.jpg)
 
+### Draw shape on image
+* This feature helps draw sapes over images
+
+```
+imagizer.drawShapeOverImg(file_origin, new_filename, file_destination, point1, point2, rgb, thickness, shape).then(img_path=>{
+    console.log(img_path)
+})
+
+```
+* point 1 and point 2 take in string in the format (x, y) eg "(20, 100)". Point 1 is the starting point of the shape while point 2 is the ending point
+* rgb takes in a string in the format "(0, 0, 0)". This is the rgb value of the shape
+* thickness takes in an int that specifies the shape thickness (for most cases, 1-4 would suffice)
+* shape takes in a string of the shape to be drawn which includes: "circle", "rectangle", "line", and "arrow"
+
+### sample image
+![sample image](https://res.cloudinary.com/rchain/image/upload/v1595505129/draw.jpg)
+
+
+### Draw marker over image
+* This feature adds a marker over image
+
+```
+imagizer.drawMarkerOnImg(file_origin, new_filename, file_destination, point, rgb, marker_type, marker_size, thickness).then(img_path=>{
+    console.log(img_path)
+})
+
+```
+* Point takes in string in the format "(10, 20)" which specifies the x and y coordinate
+* rgb takes in a string in the format "(0, 0, 0)". This is the rgb value of the marker
+* marker type is the marker type to be used. Available options include: "MARKER_CROSS", "MARKER_TILTED_CROSS", "MARKER_STAR", "MARKER_DIAMOND", "MARKER_SQUARE", "MARKER_TRIANGLE_UP", and "MARKER_TRIANGLE_DOWN"
+* marker size takes in int that specifies the marker size
+* thickness takes in an int that specifies the marker thickness (for most cases, 1-4 would suffice)
+
+### sample image
+![sample image](https://res.cloudinary.com/rchain/image/upload/v1595507759/draw2.jpg)
+
+### Invert image color
+* This feature inverts an image colour
+
+```
+imagizer.invertImgColor(file_origin, new_filename, file_destination)
+
+```
+### sample image
+![sample image](https://res.cloudinary.com/rchain/image/upload/v1595509434/inverted.jpg)
+
+
+
 ## Author 
 [Valentine Oragbakosi](https://github.com/Valentine-Mario)
