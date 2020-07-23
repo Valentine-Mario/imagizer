@@ -385,7 +385,7 @@ class Imagizer{
             return new Promise((res, rej)=>{
                 PythonShell.runString('import cv2; import numpy', null, (err)=>{
                     if(err){
-                        throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                        throw new Error("be sure to have open cv and numpy installed on your system")                                     
                     }else{
                             if(filename==undefined || filename==''||typeof(filename)!=="string") {throw new Error('Provide file name')}
                             if(destination == undefined || typeof(destination)!=="string" ) {throw new Error('provide file destination')}
@@ -416,7 +416,7 @@ class Imagizer{
                 return new Promise((res, rej)=>{
                 PythonShell.runString('import cv2; import numpy', null, (err)=>{
                         if(err){
-                            throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                            throw new Error("be sure to have open cv and numpy installed on your system")                                     
                         }else{
                                 if(filename==undefined || filename==''||typeof(filename)!=="string") {throw new Error('Provide file name')}
                                 if(destination == undefined || typeof(destination)!=="string" ) {throw new Error('provide file destination')}
@@ -449,5 +449,75 @@ class Imagizer{
                     })
                 })
             }
+
+            drawShapeOverImg(origin, filename, destination, point1, point2, rgb, thickness, shape){
+                return new Promise((res, rej)=>{
+                    PythonShell.runString("import cv2;", null, (err)=>{
+                        if(err){
+                            throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                        }else{
+                            if(origin==undefined||typeof(origin)!=="string"){throw new Error("provide a valid file path")}
+                            if(filename==undefined||typeof(filename)!=="string"||typeof(filename)==""){throw new Error("provide a valid filename")}
+                            if(destination==undefined||typeof(destination)!=="string"){throw new Error("provide valid destibation")}
+                            if(point1==undefined||typeof(point1)!=="string"){throw new Error("provide point one as a string")}
+                            if(point2==undefined||typeof(point2)!=='string'){throw new Error("provide point 2 if shape type is circle, it should be an int")}
+                            if(rgb==undefined||typeof(rgb)!=="string"){throw new Error("provide rgb as string eg (0, 0, 0)")}
+                            if(thickness==undefined||typeof(thickness)!=="number"||thickness<=0){throw new Error("provide thickness as int")}
+                            if(shape==undefined||typeof(shape)!=="string"){throw new Error("provide shape name as string")}
+                            var validImgCheck= checkFile.checkFileType(origin)
+                                if(validImgCheck.value==true){
+                                let pyshell=new PythonShell(TEMPLATE_DIR+'/shape_on_img.py');
+                                origin=path.resolve(origin)
+                                pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+point1+'\''+point2+'\''+
+                                rgb+'\''+thickness+'\''+shape+'\''+ validImgCheck.fleExt);     
+                                pyshell.on('message', function (message) {
+                                    if(message=='True'){
+                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                    }else{
+                                        throw new Error("error processing image")
+                                    }
+                        });
+                                }else{
+                                    throw new Error('please pass in a valid image')
+                                }
+                        }
+                    })
+                })
+            }
+
+        drawMarkerOnImg(origin, filename, destination, point, rgb, marker_type, marker_size, thickness){
+            return new Promise((res, rej)=>{
+                PythonShell.runString("import cv2;", null, (err)=>{
+                    if(err){
+                        throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                    }else{
+                        if(origin==undefined||typeof(origin)!=="string"){throw new Error("provide a valid file path")}
+                        if(filename==undefined||typeof(filename)!=="string"||typeof(filename)==""){throw new Error("provide a valid filename")}
+                        if(destination==undefined||typeof(destination)!=="string"){throw new Error("provide valid destibation")}
+                        if(point==undefined||typeof(point)!=="string"){throw new Error("provide point one as a string")}
+                        if(rgb==undefined||typeof(rgb)!=="string"){throw new Error("provide rgb as string eg (0, 0, 0)")}
+                        if(thickness==undefined||typeof(thickness)!=="number"||thickness<=0){throw new Error("provide thickness as int")}
+                        if(marker_type==undefined||typeof(marker_type)!=="string"){throw new Error("pass in a valid marker type")} 
+                        if(marker_size==undefined||typeof(marker_size)!=="number") {throw new Error("pass in a valid marker size")}
+                        var validImgCheck= checkFile.checkFileType(origin)
+                                if(validImgCheck.value==true){
+                                let pyshell=new PythonShell(TEMPLATE_DIR+'/marker_on_img.py');
+                                origin=path.resolve(origin)
+                                pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+point+'\''+rgb+'\''+
+                                marker_type+'\''+marker_size+'\''+thickness+'\''+ validImgCheck.fleExt);     
+                                pyshell.on('message', function (message) {
+                                    if(message=='True'){
+                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                    }else{
+                                        throw new Error("error processing image")
+                                    }
+                        });
+                                }else{
+                                    throw new Error('please pass in a valid image')
+                                }
+                    }
+                })
+            })
+        }
     }
 module.exports=new Imagizer()

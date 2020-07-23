@@ -162,4 +162,26 @@ describe('Imagizer Test', ()=>{
             })
         })
     })
+
+    describe("shape on image", ()=>{
+        it("should draw shape over image", done=>{
+            var filename="draw";
+            ImgProcessing.drawShapeOverImg(test_photo, filename, directory, "(20, 100)", "(40, 150)", "(0, 0, 0)", 2, "arrow").then(img_path=>{
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
+    describe("draw marker on image", ()=>{
+        it("should draw marker on image", done=>{
+            var filename="draw2";
+            ImgProcessing.drawMarkerOnImg(test_photo, filename, directory, "(23, 100)", "(0,0,0)", "MARKER_STAR", 30, 2).then(img_path=>{
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
 })
