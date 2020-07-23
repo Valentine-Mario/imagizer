@@ -18,6 +18,9 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] Convert an image to pencil sketch
 - [x] generate blank image
 - [x] generate blank image with text
+- [x] draw shape over image
+- [x] draw marker over image
+- [x] invert image colour
 
 ## Installation
 
