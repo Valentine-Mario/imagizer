@@ -32,6 +32,7 @@ class Imagizer{
 
                         var validImgCheck= checkFile.checkFileType(origin)
                             if(validImgCheck.value==true){
+                                origin=path.resolve(origin)
                                 let pyshell = new PythonShell(TEMPLATE_DIR+'/resize.py');
                                 pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+width +'\''+ validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
@@ -68,6 +69,7 @@ class Imagizer{
                 var validImgCheck= checkFile.checkFileType(origin)
                 if(validImgCheck.value==true){
                         let pyshell = new PythonShell(TEMPLATE_DIR+'/black-and-white.py');
+                        origin=path.resolve(origin)
                         pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                         pyshell.on('message', function (message) {
                         if(message=='True'){
@@ -107,6 +109,7 @@ class Imagizer{
                        
                             if(validImgCheck.value==true){
                                 let pyshell = new PythonShell(TEMPLATE_DIR+'/rotate-img.py');
+                                origin=path.resolve(origin)
                                 pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt+'\''+angle);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
@@ -140,6 +143,7 @@ class Imagizer{
                 var validImgCheck= checkFile.checkFileType(origin)
                 if(validImgCheck.value==true){
                         let pyshell = new PythonShell(TEMPLATE_DIR+'/blurr-img.py');
+                        origin=path.resolve(origin)
                         pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                         pyshell.on('message', function (message) {
                             if(message=='True'){
@@ -179,6 +183,8 @@ class Imagizer{
 
                     if(validImgCheck.value==true && validImgCheck2.value==true){
                         let pyshell=new PythonShell(TEMPLATE_DIR+'/overlay.py');
+                        origin_one=path.resolve(origin_one)
+                        origin_two=path.resolve(origin_two)
                         pyshell.send(''+origin_one+'\''+origin_two+'\''+filename+'\''+opacity_one+'\''+opacity_two+'\''+destination+'\''+validImgCheck.fleExt)
                         pyshell.on('message', (message)=>{
                             if(message=="True"){
@@ -213,6 +219,7 @@ class Imagizer{
                         var validImgCheck= checkFile.checkFileType(origin)
                         if(validImgCheck.value==true){
                                 let pyshell = new PythonShell(TEMPLATE_DIR+'/cartoon.py');
+                                origin=path.resolve(origin)
                                 pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
@@ -258,6 +265,8 @@ class Imagizer{
                             var validImgCheck= checkFile.checkFileType(origin)
                         if(validImgCheck.value==true){
                                 let pyshell = new PythonShell(TEMPLATE_DIR+'/text-over-img.py');
+                                origin=path.resolve(origin)
+
                                 pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt+'\''+
                                 text+'\''+rgb+'\''+text_size+'\''+x_coord+'\''+y_coord+'\''+font);     
                                 pyshell.on('message', function (message) {
@@ -287,6 +296,7 @@ class Imagizer{
                             if(videoName==undefined || typeof(videoName)!=='string')throw new Error("video name cannot be undefined and must be a string")
                             if(destination==undefined || typeof(destination)!=='string'){throw new Error("pass in a video destination as string")}
                             let pyshell=new PythonShell(TEMPLATE_DIR+'/video_create.py');
+                            imgFolder=path.resolve(imgFolder)
                             pyshell.send(''+imgFolder+'\''+videoName+'.avi'+'\''+destination);
                             pyshell.on('message', function(message){
                                 
@@ -319,6 +329,9 @@ class Imagizer{
                        
                             if(validImgCheckOne.value==true && validImgCheckTwo.value==true){
                                 let pyshell=new PythonShell(TEMPLATE_DIR+'/concat_img.py');
+                                image_one=path.resolve(image_one)
+                                image_two=path.resolve(image_two)
+
                             pyshell.send(''+image_one+'\''+image_two+'\''+filename+'\''+destination+'\''+concatType);
                             pyshell.on('message', function(message){
                                 if(message=='True'){
@@ -349,6 +362,7 @@ class Imagizer{
                     var validImgCheck= checkFile.checkFileType(origin)
                     if(validImgCheck.value==true){
                             let pyshell = new PythonShell(TEMPLATE_DIR+'/sketch.py');
+                            origin=path.resolve(origin)
                             pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                             pyshell.on('message', function (message) {
                             if(message=='True'){

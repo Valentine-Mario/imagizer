@@ -15,7 +15,7 @@ def render(img_rgb):
     return img_blend
 
 try:
-    image = cv2.imread(cwd+'/'+line_list[0])
+    image = cv2.imread(line_list[0])
     img_gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
     img_gray_inv = 255 - img_gray
     img_blur = cv2.GaussianBlur(img_gray_inv, (21,21), 0, 0)

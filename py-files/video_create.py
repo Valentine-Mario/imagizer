@@ -11,7 +11,7 @@ cwd = os.getcwd()
 # Folder which contains all the images 
 # from which video is to be generated 
 #os.chdir("C:\\Python\\Geekfolder2") 
-path = cwd+'/'+line_list[0]
+path = line_list[0]
 
 mean_height = 0
 mean_width = 0

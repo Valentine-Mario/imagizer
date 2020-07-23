@@ -3,8 +3,8 @@ lines = sys.stdin.readline().replace('\n','')
 line_list=lines.split('\'')
 cwd = os.getcwd()
 
-im1 = cv2.imread(cwd+'/'+line_list[0])
-im2 = cv2.imread(cwd+'/'+line_list[1])
+im1 = cv2.imread(line_list[0])
+im2 = cv2.imread(line_list[1])
 
 def vconcat_resize_min(im_list, interpolation=cv2.INTER_CUBIC):
     w_min = min(im.shape[1] for im in im_list)

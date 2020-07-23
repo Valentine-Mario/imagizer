@@ -26,7 +26,7 @@ if line_list[9].strip()=="FONT_ITALIC":
 color=eval(line_list[5])
 
 try:
-    img = cv2.imread(cwd+'/'+line_list[0])
+    img = cv2.imread(line_list[0])
     output=img.copy()
     cv2.putText(output, line_list[4], (int(line_list[7]), int(line_list[8])), font, float(line_list[6]), color, 2)
     cv2.imwrite(cwd+'/'+line_list[2]+'/'+line_list[1]+line_list[3], output)

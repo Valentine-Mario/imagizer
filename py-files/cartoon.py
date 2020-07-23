@@ -5,7 +5,7 @@ import os
 cwd = os.getcwd()
 
 try:
-    img = cv2.imread(cwd+'/'+line_list[0])
+    img = cv2.imread(line_list[0])
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = cv2.medianBlur(gray, 5)
     edges = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 9)
