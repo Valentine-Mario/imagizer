@@ -2,9 +2,7 @@ var checkFile=require('./src/checkFile')
 const {PythonShell} = require('python-shell')
 var path = require('path')  
 const TEMPLATE_DIR = path.join(__dirname,  'py-files') 
-const fs=require("fs")
-var process=require('process');
-var cwd=process.cwd(); 
+ 
 
 
 /** 
@@ -37,7 +35,14 @@ class Imagizer{
                                 pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+width +'\''+ validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
                                  if(message=='True'){
-                                     res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                    if(destination==""){
+                                        var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                        res(file_path)
+                                    }else{
+                                        var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                        res(file_path)
+                                    }
+                                    
                                  }else{
                                     throw new Error("error processing image")
                                  }
@@ -73,7 +78,14 @@ class Imagizer{
                         pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                         pyshell.on('message', function (message) {
                         if(message=='True'){
-                            res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                            if(destination==""){
+                                var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                res(file_path)
+                            }else{
+                                var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                res(file_path)
+                            }
+                           
                         }else{
                             throw new Error("error processing image")
                         }
@@ -113,7 +125,13 @@ class Imagizer{
                                 pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt+'\''+angle);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
-                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                        if(destination==""){
+                                            var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }else{
+                                            var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }
                                     }else{
                                         throw new Error("error processing image")
                                     }
@@ -147,7 +165,14 @@ class Imagizer{
                         pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                         pyshell.on('message', function (message) {
                             if(message=='True'){
-                                res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                if(destination==""){
+                                    var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                    res(file_path)
+                                }else{
+                                    var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                    res(file_path)
+                                }
+                                
                             }else{
                                 throw new Error("error processing image")
                             }
@@ -188,7 +213,13 @@ class Imagizer{
                         pyshell.send(''+origin_one+'\''+origin_two+'\''+filename+'\''+opacity_one+'\''+opacity_two+'\''+destination+'\''+validImgCheck.fleExt)
                         pyshell.on('message', (message)=>{
                             if(message=="True"){
-                                res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                if(destination==""){
+                                    var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                    res(file_path)
+                                }else{
+                                    var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                    res(file_path)
+                                }
                             }else{
                                 throw new Error("error processing image")
                             }
@@ -223,7 +254,13 @@ class Imagizer{
                                 pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
-                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                        if(destination==""){
+                                            var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }else{
+                                            var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                        res(file_path)
+                                        }
                                     }else{
                                         throw new Error("error processing image")
                                     }
@@ -271,7 +308,13 @@ class Imagizer{
                                 text+'\''+rgb+'\''+text_size+'\''+x_coord+'\''+y_coord+'\''+font);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
-                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                        if(destination==""){
+                                            var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }else{
+                                            var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }
                                     }else{
                                         throw new Error("error processing image")
                                     }
@@ -301,7 +344,13 @@ class Imagizer{
                             pyshell.on('message', function(message){
                                 
                                 if(message=='True'){
-                                    res(cwd+`/${destination}/${videoName}.avi`)
+                                    if(destination==""){
+                                        var file_path=path.resolve(`${videoName}.avi`)
+                                        res(file_path)
+                                    }else{
+                                        var file_path=path.resolve(`${destination}/${videoName}.avi`)
+                                        res(file_path)
+                                    }
                                 }else{
                                     throw new Error("error creating video")
                                 }
@@ -335,7 +384,14 @@ class Imagizer{
                             pyshell.send(''+image_one+'\''+image_two+'\''+filename+'\''+destination+'\''+concatType);
                             pyshell.on('message', function(message){
                                 if(message=='True'){
-                                    res(cwd+`/${destination}/${filename}`)
+                                    if(destination==""){
+                                        var file_path=path.resolve(`${filename}${validImgCheckOne.fleExt}`)
+                                        res(file_path)
+                                    }else{
+                                        var file_path=path.resolve(`${destination}/${filename}${validImgCheckOne.fleExt}`)
+                                        res(file_path)
+                                    }
+                                    
                                 }else{
                                     throw new Error("error creating image")
                                 }
@@ -366,7 +422,14 @@ class Imagizer{
                             pyshell.send(''+origin+'\''+''+filename+'\''+destination+'\''+ validImgCheck.fleExt);     
                             pyshell.on('message', function (message) {
                             if(message=='True'){
-                                res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                if(destination==""){
+                                    var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                    res(file_path)
+                                }else{
+                                    var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                    res(file_path)
+                                }
+                               
                             }else{
                                 throw new Error("error processing image")
                             }
@@ -399,7 +462,14 @@ class Imagizer{
                                     rgb+'\''+".jpg");     
                                     pyshell.on('message', function (message) {
                                     if(message=='True'){
-                                        res(cwd+`/${destination}/${filename}.jpg`)
+                                        if(destination==""){
+                                            var file_path=path.resolve(`${filename}.jpg`)
+                                            res(file_path)
+                                        }else{
+                                            var file_path=path.resolve(`${destination}/${filename}.jpg`)
+                                            res(file_path)
+                                        }
+                                        
                                     }else{
                                         throw new Error("error processing image")
                                     }
@@ -440,7 +510,14 @@ class Imagizer{
                                 rgb_image+'\''+ rgb_text+"\'"+y_coord+"\'"+x_coord+"\'"+text+"\'"+text_size+"\'"+font+"\'"+".jpg");     
                                 pyshell.on('message', function (message) {
                                 if(message=='True'){
-                                    res(cwd+`/${destination}/${filename}.jpg`)
+                                    if(destination==""){
+                                        var file_path=path.resolve(`${filename}.jpg`)
+                                        res(file_path)
+                                    }else{
+                                        var file_path=path.resolve(`${destination}/${filename}.jpg`)
+                                        res(file_path)
+                                    }
+                                    
                                 }else{
                                     throw new Error("error processing image")
                                 }
@@ -472,7 +549,13 @@ class Imagizer{
                                 rgb+'\''+thickness+'\''+shape+'\''+ validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
-                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                        if(destination==""){
+                                            var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }else{
+                                            var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }
                                     }else{
                                         throw new Error("error processing image")
                                     }
@@ -507,7 +590,13 @@ class Imagizer{
                                 marker_type+'\''+marker_size+'\''+thickness+'\''+ validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
-                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                        if(destination==""){
+                                            var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }else{
+                                            var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }
                                     }else{
                                         throw new Error("error processing image")
                                     }
@@ -536,7 +625,13 @@ class Imagizer{
                                 pyshell.send(''+origin+'\''+filename+'\''+destination+'\''+validImgCheck.fleExt);     
                                 pyshell.on('message', function (message) {
                                     if(message=='True'){
-                                        res(cwd+`/${destination}/${filename}${validImgCheck.fleExt}`)
+                                        if(destination==""){
+                                            var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }else{
+                                            var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                            res(file_path)
+                                        }
                                     }else{
                                         throw new Error("error processing image")
                                     }
