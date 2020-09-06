@@ -381,7 +381,7 @@ class Imagizer{
                                 image_one=path.resolve(image_one)
                                 image_two=path.resolve(image_two)
 
-                            pyshell.send(''+image_one+'\''+image_two+'\''+filename+'\''+destination+'\''+concatType);
+                            pyshell.send(''+image_one+'\''+image_two+'\''+filename+'\''+destination+'\''+concatType+'\''+validImgCheckOne.fleExt);
                             pyshell.on('message', function(message){
                                 if(message=='True'){
                                     if(destination==""){
@@ -643,5 +643,78 @@ class Imagizer{
                 })
             })
         }
+
+        contrastImg(origin, filename, destination, contrast){
+            return new Promise((res, rej)=>{
+                PythonShell.runString("import cv2;", null, (err)=>{
+                    if(err){
+                        throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                    }else{
+                        if(origin===undefined||typeof(origin)!=="string"){throw new Error("please provide an origin path")}
+                        if(filename===undefined||typeof(filename)!=="string"){throw new Error("please provide a new file name")}
+                        if(destination===undefined||typeof(destination)!=="string"){throw new Error("please provide destination")}
+                        if(contrast===undefined||typeof(contrast)!=="number"){throw new Error("please provide a contrast value")}
+                        var validImgCheck=checkFile.checkFileType(origin)
+                        if(validImgCheck.value==true){
+                            let pyshell=new PythonShell(TEMPLATE_DIR+'/contrast_img.py');
+                            origin=path.resolve(origin)
+                            pyshell.send(''+origin+'\''+filename+'\''+destination+'\''+contrast+'\''+validImgCheck.fleExt);     
+                            pyshell.on('message', function (message) {
+                                if(message=='True'){
+                                    if(destination==""){
+                                        var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                        res(file_path)
+                                    }else{
+                                        var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                        res(file_path)
+                                    }
+                                }else{
+                                    throw new Error("error processing image")
+                                }
+                    });
+                            }else{
+                                throw new Error('please pass in a valid image')
+                            }
+                     }
+            })
+        })
+        }
+
+        cropImg(origin, filename, destination, x1, x2, y1, y2){
+            return new Promise((res, rej)=>{
+                PythonShell.runString("import cv2;", null, (err)=>{
+                    if(err){
+                        throw new Error("be sure to have open cv and imutils installed on your system")                                     
+                    }else{
+                        if(origin===undefined||typeof(origin)!=="string"){throw new Error("please provide an origin path")}
+                        if(filename===undefined||typeof(filename)!=="string"){throw new Error("please provide a new file name")}
+                        if(destination===undefined||typeof(destination)!=="string"){throw new Error("please provide destination")}
+                        if(x1===undefined||x2===undefined||y1===undefined||y2===undefined){throw new Error("please provide values for x1, x2, y1 and y2")}
+                        var validImgCheck=checkFile.checkFileType(origin)
+                        if(validImgCheck.value==true){
+                            let pyshell=new PythonShell(TEMPLATE_DIR+'/crop_img.py');
+                            origin=path.resolve(origin)
+                            pyshell.send(''+origin+'\''+filename+'\''+destination+'\''+x1+'\''+x2+'\''+y1+'\''+y2+'\''+validImgCheck.fleExt);     
+                            pyshell.on('message', function (message) {
+                                if(message=='True'){
+                                    if(destination==""){
+                                        var file_path=path.resolve(`${filename}${validImgCheck.fleExt}`)
+                                        res(file_path)
+                                    }else{
+                                        var file_path=path.resolve(`${destination}/${filename}${validImgCheck.fleExt}`)
+                                        res(file_path)
+                                    }
+                                }else{
+                                    throw new Error("error processing image")
+                                }
+                    });
+                            }else{
+                                throw new Error('please pass in a valid image')
+                            }
+                     }
+            })
+        })
+        }
+
     }
 module.exports=new Imagizer()

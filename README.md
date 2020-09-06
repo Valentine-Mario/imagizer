@@ -21,6 +21,8 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] draw shape over image
 - [x] draw marker over image
 - [x] invert image colour
+- [x] change image contrast
+- [x] crop image
 
 ## Installation
 
@@ -304,6 +306,35 @@ imagizer.invertImgColor(file_origin, new_filename, file_destination)
 ![sample image](https://res.cloudinary.com/rchain/image/upload/v1595509434/inverted.jpg)
 
 
+### Change Image Contrast
+* This feature changes the image contrast
+
+```
+imagizer.contrastImg(file_origin, new_filename, file_destination, contrast_value).then(img_path=>{
+    console.log(img_path)
+})
+
+```
+* Contrast value takes in a number usually between 1.0-5.0 based on your preference
+
+### sample images
+![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
+![contrast image](https://res.cloudinary.com/rchain/image/upload/v1599405645/contrast.jpg)
+
+
+### Crop Image
+* This feature crops an image
+
+```
+imagizer.cropImg(file_origin, new_filename, file_destination, x1, x2, y1, y2).then(img_path=>{
+    console.log(img_path)
+})
+```
+* x1, x2, y1, y2 values take in number parameters. It specifies the start and end point to be cropped eg start from coordinate x1:y1 and end in the coordinate x2:y2
+
+### sample images
+![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
+![cropped image](https://res.cloudinary.com/rchain/image/upload/v1599406025/crop.jpg)
 
 ## Author 
 [Valentine Oragbakosi](https://github.com/Valentine-Mario)

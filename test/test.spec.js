@@ -132,8 +132,9 @@ describe('Imagizer Test', ()=>{
 
     describe("concatenate image vertically", ()=>{
         it("should concatenate images vertically", done=>{
-            var filename="concat-image.jpg"
+            var filename="concat-image"
             ImgProcessing.ConcatImage(test_photo, test_photo2, filename, directory, 'vertical').then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/concat-image.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)
@@ -145,6 +146,7 @@ describe('Imagizer Test', ()=>{
         it("should generate blank image", done=>{
             var filename="blank";
             ImgProcessing.generateBlankImg(filename, directory, 300, 500, "(10, 20, 200)").then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/blank.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)
@@ -156,6 +158,7 @@ describe('Imagizer Test', ()=>{
         it("should generate blaqnk image with text", done=>{
             var filename="blank_text";
             ImgProcessing.generateBlankImgWithText(filename, directory, 300, 500, "(200, 0, 1)", "(120, 12, 23)", 34, 12, "hello world", 23, "FONT_HERSHEY_DUPLEX").then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/blank_text.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)
@@ -167,6 +170,7 @@ describe('Imagizer Test', ()=>{
         it("should draw shape over image", done=>{
             var filename="draw";
             ImgProcessing.drawShapeOverImg(test_photo, filename, directory, "(20, 100)", "(40, 150)", "(0, 0, 0)", 2, "arrow").then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/draw.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)
@@ -178,6 +182,7 @@ describe('Imagizer Test', ()=>{
         it("should draw marker on image", done=>{
             var filename="draw2";
             ImgProcessing.drawMarkerOnImg(test_photo, filename, directory, "(23, 100)", "(0,0,0)", "MARKER_STAR", 30, 2).then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/draw2.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)
@@ -189,6 +194,31 @@ describe('Imagizer Test', ()=>{
         it("should invert image colour", done=>{
             var filename="inverted";
             ImgProcessing.invertImgColor(test_photo, filename, directory).then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/inverted.jpg');
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
+    describe("contrast image", ()=>{
+        it("should contrast image", done=>{
+            var filename="contrast";
+            ImgProcessing.contrastImg(test_photo, filename, directory, 2.1).then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/contrast.jpg');
+                done()
+            }).catch(err=>{
+                console.log(err)
+            })
+        })
+    })
+
+    describe("crop image", ()=>{
+        it("should crop the image", done=>{
+            var filename="crop";
+            ImgProcessing.cropImg(test_photo, filename, directory, 23, 300, 450, 600).then(img_path=>{
+                should.equal(img_path, process.cwd()+'/test/processed/crop.jpg');
                 done()
             }).catch(err=>{
                 console.log(err)

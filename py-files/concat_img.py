@@ -23,16 +23,14 @@ def hconcat_resize_min(im_list, interpolation=cv2.INTER_CUBIC):
 if line_list[4]=='vertical':
     try:
         im_v_resize = vconcat_resize_min([im1, im2])
-        cv2.imwrite(cwd+'/'+line_list[3]+'/'+line_list[2], im_v_resize)
+        cv2.imwrite(cwd+'/'+line_list[3]+'/'+line_list[2]+line_list[5], im_v_resize)
         print(True)
     except:
         print(False)
 else:
     try:
         im_h_resize = hconcat_resize_min([im1, im2])
-        cv2.imwrite(cwd+'/'+line_list[3]+'/'+line_list[2], im_h_resize)
+        cv2.imwrite(cwd+'/'+line_list[3]+'/'+line_list[2]+line_list[5], im_h_resize)
         print(True)
     except:
         print(False)
-
-
