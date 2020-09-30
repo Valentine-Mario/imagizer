@@ -23,6 +23,8 @@ Imagizer is an node js image processing library that harnesses the power of open
 - [x] invert image colour
 - [x] change image contrast
 - [x] crop image
+- [x] enhance image
+- [x] water color image
 
 ## Installation
 
@@ -335,6 +337,33 @@ imagizer.cropImg(file_origin, new_filename, file_destination, x1, x2, y1, y2).th
 ### sample images
 ![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
 ![cropped image](https://res.cloudinary.com/rchain/image/upload/v1599406025/crop.jpg)
+
+
+### Enhance Image
+* Enhance image quality
+
+```
+imagizer.enhancePhoto(file_origin, new_filename, file_destination).then((img_path) => {
+        console.log(img_path)
+    })
+```
+
+### sample images
+![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
+![enhanced image](https://res.cloudinary.com/rchain/image/upload/v1601475832/enhanced.jpg)
+
+### Water color image
+* Give image a water color effect
+
+```
+imagizer.stylePhoto(file_origin, new_filename, file_destination).then(img_path=>{
+    console.log(img_path)
+})
+
+```
+### sample images
+![unprocessed image](https://res.cloudinary.com/rchain/image/upload/v1582042402/download.jpg)
+![water color image](https://res.cloudinary.com/rchain/image/upload/v1601476116/styled.jpg)
 
 ## Author 
 [Valentine Oragbakosi](https://github.com/Valentine-Mario)
